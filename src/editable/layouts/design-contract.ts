@@ -1,23 +1,24 @@
 import type { CSSProperties } from 'react'
 
 export const editableRootStyle = {
-  '--slot4-page-bg': '#fff9f2',
-  '--slot4-page-text': '#111111',
-  '--slot4-panel-bg': '#fff3e8',
+  '--editable-container': '1180px',
+  '--slot4-page-bg': '#f8fbff',
+  '--slot4-page-text': '#102033',
+  '--slot4-panel-bg': '#eef6fb',
   '--slot4-surface-bg': '#ffffff',
-  '--slot4-muted-text': '#4f463f',
-  '--slot4-soft-muted-text': '#6b6258',
-  '--slot4-accent': '#ff6600',
-  '--slot4-accent-fill': '#ff6600',
-  '--slot4-accent-soft': '#d1e0ff',
-  '--slot4-dark-bg': '#111111',
+  '--slot4-muted-text': '#526170',
+  '--slot4-soft-muted-text': '#728192',
+  '--slot4-accent': '#ff5750',
+  '--slot4-accent-fill': '#1f73be',
+  '--slot4-accent-soft': '#fff0ef',
+  '--slot4-dark-bg': '#082347',
   '--slot4-dark-text': '#ffffff',
-  '--slot4-media-bg': '#e9e2da',
-  '--slot4-cream': '#fdf1e5',
-  '--slot4-warm': '#fff9f2',
-  '--slot4-lavender': '#d1e0ff',
-  '--slot4-gray': '#f6f6f6',
-  '--slot4-body-gradient': 'linear-gradient(180deg, #fdf1e5 0%, #fff9f2 38%, #f6f6f6 100%)',
+  '--slot4-media-bg': '#e9f2f7',
+  '--slot4-cream': '#ffffff',
+  '--slot4-warm': '#f8fbff',
+  '--slot4-lavender': '#eef6fb',
+  '--slot4-gray': '#f3f6f8',
+  '--slot4-body-gradient': 'linear-gradient(180deg, #ffffff 0%, #f8fbff 42%, #f3f6f8 100%)',
 } as CSSProperties
 
 export const editablePalette = {
@@ -50,7 +51,7 @@ export const editablePalette = {
 export const editableDesignContract = {
   shell: {
     page: `min-h-screen ${editablePalette.pageBg} ${editablePalette.pageText}`,
-    section: 'mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8',
+    section: 'mx-auto w-full max-w-[var(--editable-container)] px-4 sm:px-6 lg:px-8',
     sectionY: 'py-14 sm:py-16 lg:py-20',
   },
   layout: {
@@ -71,9 +72,9 @@ export const editableDesignContract = {
     dark: `rounded-2xl ${editablePalette.darkBg} ${editablePalette.darkText} ${editablePalette.shadowStrong}`,
   },
   button: {
-    primary: `inline-flex items-center justify-center rounded-full ${editablePalette.darkBg} px-8 py-3.5 text-sm font-semibold text-white transition hover:opacity-90`,
-    secondary: `inline-flex items-center justify-center rounded-full border ${editablePalette.border} ${editablePalette.surfaceBg} px-8 py-3.5 text-sm font-semibold ${editablePalette.surfaceText} transition hover:bg-black/[0.03]`,
-    accent: `inline-flex items-center justify-center rounded-full ${editablePalette.accentBg} px-8 py-3.5 text-sm font-semibold text-white transition hover:opacity-90`,
+    primary: `inline-flex items-center justify-center rounded-md ${editablePalette.accentBg} px-7 py-3 text-sm font-bold text-white transition hover:opacity-90`,
+    secondary: `inline-flex items-center justify-center rounded-md border border-[#1f73be] ${editablePalette.surfaceBg} px-7 py-3 text-sm font-bold text-[#1f73be] transition hover:bg-[#eef6fb]`,
+    accent: `inline-flex items-center justify-center rounded-md bg-[var(--slot4-accent)] px-7 py-3 text-sm font-bold text-white transition hover:opacity-90`,
   },
   media: {
     frame: `relative overflow-hidden rounded-xl ${editablePalette.mediaBg}`,
