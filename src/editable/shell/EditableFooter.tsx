@@ -5,25 +5,39 @@ import type { CSSProperties } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { globalContent } from '@/editable/content/global.content'
+import { slot4BrandConfig } from '@/editable/theme/brand.config'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
 export function EditableFooter() {
-  const footerVars = { '--editable-footer-bg': 'var(--editable-page-bg, #fffaf3)', '--editable-footer-text': 'var(--editable-page-text, #241915)' } as CSSProperties
+  const footerVars = { '--editable-footer-bg': '#ffffff', '--editable-footer-text': '#102033', '--editable-footer-dark': '#082347' } as CSSProperties
   const taskLinks = SITE_CONFIG.tasks.filter((task) => task.enabled)
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
 
   return (
     <footer style={footerVars} className="border-t border-[var(--editable-border)] bg-[var(--editable-footer-bg)] text-[var(--editable-footer-text)]">
+      <section className="bg-[var(--editable-footer-dark)] text-white">
+        <div className="mx-auto grid max-w-[var(--editable-container)] items-center gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <h2 className="text-3xl font-black tracking-normal">Ready to get started?</h2>
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <Link href="/listing" className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-bold text-[var(--editable-footer-dark)]">
+              Browse listings <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+            <Link href="/create" className="inline-flex items-center gap-2 rounded-md border border-white px-5 py-3 text-sm font-bold text-white">
+              Create a listing <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
       <div className="mx-auto grid max-w-[var(--editable-container)] gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:px-8">
         <div>
           <Link href="/" className="inline-flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-[var(--editable-border)] bg-white">
-              <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-9 w-9 object-contain" />
+            <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-[#ff5750]">
+              <img src="/favicon.png?v=20260413" alt={slot4BrandConfig.siteName} className="h-11 w-12 object-contain" />
             </span>
-            <span className="text-lg font-black tracking-[-0.04em]">{SITE_CONFIG.name}</span>
+            <span className="text-lg font-black tracking-normal">{slot4BrandConfig.siteName}</span>
           </Link>
-          <p className="mt-4 max-w-md text-sm leading-7 opacity-70">{globalContent.footer?.description || SITE_CONFIG.description}</p>
+          <p className="mt-4 max-w-md text-sm leading-7 opacity-70">{globalContent.footer?.description || slot4BrandConfig.tagline}</p>
         </div>
 
         <div>
@@ -52,7 +66,7 @@ export function EditableFooter() {
         </div>
       </div>
       <div className="border-t border-[var(--editable-border)] px-4 py-5 text-center text-xs font-bold opacity-55">
-        © {year} {SITE_CONFIG.name}. All rights reserved.
+        © {year} {slot4BrandConfig.siteName}. All rights reserved.
       </div>
     </footer>
   )

@@ -12,17 +12,22 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function LoginPage() {
   return (
     <EditableSiteShell>
-      <main className="bg-[var(--editable-page-bg,#fff7ee)] text-[var(--editable-page-text,#2f1d16)]">
+      <main className="bg-[#f8fbff] text-[#102033]">
         <section className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-[var(--editable-container)] items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] opacity-55">{pagesContent.auth.login.badge}</p>
-            <h1 className="mt-5 max-w-xl text-5xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{pagesContent.auth.login.title}</h1>
-            <p className="mt-6 max-w-lg text-sm leading-8 opacity-70">{pagesContent.auth.login.description}</p>
+            <p className="text-xs font-black uppercase text-[#ff5750]">{pagesContent.auth.login.badge}</p>
+            <h1 className="mt-5 max-w-xl text-4xl font-black leading-tight tracking-normal sm:text-5xl">{pagesContent.auth.login.title}</h1>
+            <p className="mt-6 max-w-lg text-sm leading-8 text-slate-700">{pagesContent.auth.login.description}</p>
+            <div className="mt-7 grid max-w-lg gap-3 text-sm font-semibold text-slate-700">
+              <p>Manage submitted business listings.</p>
+              <p>Keep contact details and descriptions ready for customers.</p>
+              <p>Create new directory content from one simple workspace.</p>
+            </div>
           </div>
-          <div className="rounded-[2rem] border border-[var(--editable-border)] bg-white/80 p-6 shadow-[0_24px_70px_rgba(16,36,31,0.12)] backdrop-blur sm:p-8">
-            <h2 className="text-2xl font-black tracking-[-0.04em]">{pagesContent.auth.login.formTitle}</h2>
+          <div className="rounded-md border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="text-2xl font-black">{pagesContent.auth.login.formTitle}</h2>
             <EditableLocalLoginForm />
-            <p className="mt-5 text-sm opacity-70">New here? <Link href="/signup" className="font-black underline-offset-4 hover:underline">{pagesContent.auth.login.createCta}</Link></p>
+            <p className="mt-5 text-sm text-slate-700">New here? <Link href="/signup" className="font-black text-[#1f73be] underline-offset-4 hover:underline">{pagesContent.auth.login.createCta}</Link></p>
           </div>
         </section>
       </main>
