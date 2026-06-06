@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Mail, MapPin, MessageCircle, Phone, Tag, UserRound } from 'lucide-react'
+import { ArrowLeft, Bookmark, Building2, Camera, CheckCircle2, Clock, Download, ExternalLink, FileText, Globe2, Mail, MapPin, MessageCircle, Phone, Share2, Star, Tag, UserRound, X } from 'lucide-react'
 import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
+import { slot4BrandConfig } from '@/editable/theme/brand.config'
 import { getVisualPreset, visualSystem } from '@/editable/theme/visual-system'
 
 export const revalidate = 3
@@ -157,28 +158,121 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const email = getField(post, ['email'])
   const website = getField(post, ['website', 'url'])
   const mapSrc = mapSrcFor(post)
+  const directionsHref = address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : ''
+  const websiteHref = /^https?:\/\//i.test(website) ? website : website ? `https://${website}` : ''
+  const galleryImages = images.length ? images : ['/placeholder.svg?height=420&width=620']
   return (
-    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section className="mx-auto max-w-[var(--editable-container)] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <BackLink task="listing" />
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-        <article className="rounded-[2.8rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.09)] sm:p-9">
-          <div className="grid gap-6 sm:grid-cols-[150px_1fr]">
-            <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-[2rem] bg-[var(--detail-bg)] ring-1 ring-[var(--editable-border)]">
-              {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <Building2 className="h-14 w-14 opacity-40" />}
+      <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_365px]">
+        <article className="min-w-0">
+          <section className="rounded-md border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <div className="flex flex-wrap justify-between gap-5">
+              <div className="grid min-w-0 gap-5 sm:grid-cols-[104px_minmax(0,1fr)]">
+                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-[#eef6fb]">
+                  {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <Building2 className="h-11 w-11 opacity-40" />}
+                </div>
+                <div className="min-w-0">
+                  <h1 className="text-4xl font-black leading-tight tracking-normal text-[#102033] sm:text-5xl">{post.title}</h1>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <span className="inline-flex items-center gap-1 text-[#ff5750]">
+                      {[0, 1, 2, 3, 4].map((star) => <Star key={star} className="h-5 w-5 fill-current" />)}
+                    </span>
+                    <span className="text-sm font-semibold text-slate-700">Trusted local business</span>
+                  </div>
+                  <p className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-700"><CheckCircle2 className="h-4 w-4 text-[#1f73be]" /> Claimed · Business listing · Local services</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-black uppercase text-[#ff5750]"><CheckCircle2 className="h-4 w-4 fill-current" /> Verified</span>
+                </div>
+              </div>
+              
             </div>
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Business listing</p>
-              <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{summaryText(post)}</p>
+          </section>
+
+          <nav className="mt-7 flex gap-6 overflow-x-auto border-b border-slate-200 text-sm font-semibold text-[#102033]">
+            {[
+              ['About', '#about'],
+              ['Photos', '#photos'],
+              ['Location & Hours', '#location-hours'],
+              ['Reviews', '#reviews'],
+            ].map(([label, href], index) => (
+              <a key={href} href={href} className={`shrink-0 border-b-2 px-1 py-3 ${index === 0 ? 'border-[#1f73be] text-[#1f73be]' : 'border-transparent hover:text-[#1f73be]'}`}>{label}</a>
+            ))}
+          </nav>
+
+          <section id="about" className="scroll-mt-28 py-8">
+            <h2 className="text-xl font-black text-[#102033]">About {post.title}</h2>
+            
+            <BodyContent post={post} compact />
+          </section>
+
+          <section id="photos" className="scroll-mt-28 py-4">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-xl font-black text-[#102033]">Photos & videos</h2>
+              <a href="#all-photos" className="text-sm font-black text-[#1f73be]">See all</a>
+            </div>
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              {galleryImages.slice(0, 3).map((image, index) => (
+                <img key={`${image}-${index}`} src={image} alt="" className="aspect-[4/3] w-full rounded-md border border-slate-200 object-cover" />
+              ))}
+            </div>
+          </section>
+
+          <section id="all-photos" className="editable-photo-lightbox" aria-labelledby="all-photos-title">
+            <a href="#photos" className="editable-photo-lightbox__backdrop" aria-label="Close photos gallery" />
+            <div className="editable-photo-lightbox__panel">
+              <div className="flex items-start justify-between gap-4 border-b border-slate-200 p-5">
+                <div>
+                  <p className="text-xs font-black uppercase text-[#ff5750]">Business gallery</p>
+                  <h2 id="all-photos-title" className="mt-1 text-2xl font-black text-[#102033]">All photos & videos</h2>
+                </div>
+                <a href="#photos" className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-[#102033]" aria-label="Close gallery">
+                  <X className="h-5 w-5" />
+                </a>
+              </div>
+              <div className="grid max-h-[70vh] gap-4 overflow-y-auto p-5 sm:grid-cols-2 lg:grid-cols-3">
+                {galleryImages.map((image, index) => (
+                  <figure key={`all-${image}-${index}`} className="overflow-hidden rounded-md border border-slate-200 bg-white">
+                    <img src={image} alt={`${post.title} gallery image ${index + 1}`} className="aspect-[4/3] w-full object-cover" />
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section id="location-hours" className="scroll-mt-28 py-8">
+            <h2 className="text-xl font-black text-[#102033]">Location & hours</h2>
+            <div className="mt-5 grid gap-6 md:grid-cols-[minmax(0,1.15fr)_minmax(260px,0.85fr)]">
+              {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : <InfoGrid items={[['Location', address, MapPin]]} />}
+              <div className="grid gap-3 text-sm text-[#102033]">
+                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day) => <p key={day} className="flex justify-between gap-6"><span>{day}</span><span>9:00 am - 5:00 pm</span></p>)}
+                {['Sat', 'Sun'].map((day) => <p key={day} className="flex justify-between gap-6"><span>{day}</span><span>Closed</span></p>)}
+              </div>
+            </div>
+          </section>
+
+        
+
+          <section id="reviews" className="scroll-mt-28 py-8">
+            <h2 className="text-xl font-black text-[#102033]">Reviews</h2>
+            <div className="mt-5 rounded-md border border-dashed border-slate-300 bg-white p-6 text-sm leading-7 text-slate-700">Customer reviews and owner responses can appear here as the listing grows.</div>
+          </section>
+        </article>
+
+        <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+          <div className="rounded-md border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="grid gap-5 text-sm text-[#102033]">
+              {phone ? <a href={`tel:${phone}`} className="flex items-start gap-3 hover:text-[#1f73be]"><Phone className="mt-0.5 h-5 w-5 shrink-0" /> <span>{phone}</span></a> : null}
+              {websiteHref ? <a href={websiteHref} target="_blank" rel="noreferrer" className="flex items-start gap-3 text-[#1f73be]"><Globe2 className="mt-0.5 h-5 w-5 shrink-0" /> <span className="break-all">{website.replace(/^https?:\/\//, '')}</span></a> : null}
+              {address ? <a href={directionsHref || '#'} target={directionsHref ? '_blank' : undefined} rel={directionsHref ? 'noreferrer' : undefined} className="flex items-start gap-3 hover:text-[#1f73be]"><MapPin className="mt-0.5 h-5 w-5 shrink-0" /> <span>{address}</span></a> : null}
+              {email ? <a href={`mailto:${email}`} className="flex items-start gap-3 hover:text-[#1f73be]"><Mail className="mt-0.5 h-5 w-5 shrink-0" /> <span className="break-all">{email}</span></a> : null}
+  
+            </div>
+            <div className="mt-6 grid gap-3">
+              {phone ? <a href={`tel:${phone}`} className="rounded-md bg-[#1f73be] px-5 py-3 text-center text-sm font-black text-white">Call business</a> : null}
+              {websiteHref ? <a href={websiteHref} target="_blank" rel="noreferrer" className="rounded-md border border-[#1f73be] px-5 py-3 text-center text-sm font-black text-[#1f73be]">Visit website</a> : null}
+              {directionsHref ? <a href={directionsHref} target="_blank" rel="noreferrer" className="rounded-md border border-[#1f73be] px-5 py-3 text-center text-sm font-black text-[#1f73be]">Get directions</a> : null}
             </div>
           </div>
-          <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
-          <BodyContent post={post} />
-          <ImageStrip images={images.slice(1)} label="Business showcase" />
-        </article>
-        <aside className="space-y-5">
-          {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : <ContactAction website={website} phone={phone} email={email} />}
-          {mapSrc ? <ContactAction website={website} phone={phone} email={email} /> : null}
           <RelatedPanel task="listing" post={post} related={related} compact />
         </aside>
       </div>
@@ -384,8 +478,7 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
           <p className="text-xs font-black uppercase tracking-[0.22em] opacity-55">About this post</p>
           <div className="mt-4 grid gap-3 text-sm font-bold opacity-75">
             <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4" /> Task: {taskConfig?.label || task}</p>
-            <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Site: {SITE_CONFIG.name}</p>
-            {post.publishedAt ? <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p> : null}
+            <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Site: {slot4BrandConfig.siteName}</p>
           </div>
         </div>
       ) : null}

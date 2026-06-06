@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { ArrowRight, Bookmark, BriefcaseBusiness, Building2, Camera, Download, FileText, Filter, Image as ImageIcon, MapPin, Megaphone, Search, UserRound } from 'lucide-react'
+import { ArrowRight, Bookmark, BriefcaseBusiness, Building2, Camera, CheckCircle2, Download, FileText, Filter, Globe2, Image as ImageIcon, MapPin, Megaphone, Phone, Search, Star, UserRound } from 'lucide-react'
 import { buildTaskMetadata } from '@/lib/seo'
 import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import { fetchPaginatedTaskPosts, buildPostUrl } from '@/lib/task-data'
@@ -9,7 +9,7 @@ import type { SiteFeedPagination, SitePost } from '@/lib/site-connector'
 import { taskPageMetadata } from '@/config/site.content'
 import { taskPageVoices } from '@/editable/content/task-pages.content'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
-import { getVisualPreset, visualSystem } from '@/editable/theme/visual-system'
+import { slot4BrandConfig } from '@/editable/theme/brand.config'
 
 export const revalidate = 3
 
@@ -84,43 +84,43 @@ export async function EditableTaskArchiveRoute({
 export function TaskArchiveView({ task, posts, pagination, category, basePath }: { task: TaskKey; posts: SitePost[]; pagination: SiteFeedPagination; category: string; basePath: string }) {
   const taskConfig = getTaskConfig(task)
   const voice = taskPageVoices[task]
-  const preset = getVisualPreset(visualSystem.recommendedPreset as any)
   const page = pagination.page || 1
   const label = taskConfig?.label || task
   const deck = taskDeck[task]
-  const Icon = deck.icon
-  const archiveVars = { '--archive-bg': preset.colors.background, '--archive-text': preset.colors.foreground, '--archive-surface': preset.colors.surface, '--archive-accent': preset.colors.accent } as CSSProperties
+  const archiveVars = { '--archive-bg': '#f8fbff', '--archive-text': '#102033', '--archive-surface': '#ffffff', '--archive-accent': '#ff5750', '--archive-blue': '#1f73be', '--archive-navy': '#082347' } as CSSProperties
   const categoryLabel = category === 'all' ? 'All categories' : CATEGORY_OPTIONS.find((item) => item.slug === category)?.name || category
 
   return (
     <EditableSiteShell>
       <main style={archiveVars} className="bg-[var(--archive-bg)] text-[var(--archive-text)]">
-        <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-20">
-          <div className="rounded-[2.5rem] border border-[var(--editable-border)] bg-[var(--archive-surface)] p-7 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-border)] bg-white/70 px-4 py-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--archive-accent)]"><Icon className="h-4 w-4" /> {label}</div>
-            <h1 className="mt-5 max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.07em] sm:text-6xl">{voice?.headline || `Browse ${label}`}</h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 opacity-70">{voice?.description || SITE_CONFIG.description}</p>
-            <div className="mt-6 rounded-[1.5rem] border border-[var(--editable-border)] bg-white/55 p-4 text-sm font-bold leading-7 opacity-75">{deck.promise}</div>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={basePath} className="rounded-full bg-[var(--archive-text)] px-5 py-3 text-sm font-black text-[var(--archive-bg)]">Browse all</Link>
-              <Link href="/search" className="rounded-full border border-[var(--editable-border)] px-5 py-3 text-sm font-black">Search posts</Link>
-            </div>
+        <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:px-8 lg:py-14">
+          <div>
+            <p className="text-sm font-semibold text-slate-600">Home / Local businesses / {categoryLabel}</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight tracking-normal text-[#102033] sm:text-5xl">{voice?.headline || `Top ${label} on ${slot4BrandConfig.siteName}`}</h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">{voice?.description || slot4BrandConfig.tagline || 'Search local companies, compare service details, and contact businesses from one clean directory.'}</p>
+            <form action="/search" className="mt-6 flex max-w-2xl overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm">
+              <label className="flex min-h-12 min-w-0 flex-1 items-center gap-2 px-4">
+                <Search className="h-4 w-4 text-slate-400" />
+                <input name="q" placeholder="Search business or service" className="min-w-0 flex-1 bg-transparent text-sm font-semibold outline-none placeholder:text-slate-400" />
+              </label>
+              <button className="bg-[#1f73be] px-6 text-sm font-black text-white">Search</button>
+            </form>
           </div>
 
-          <form action={basePath} className="self-end rounded-[2rem] border border-[var(--editable-border)] bg-white/70 p-5 shadow-sm backdrop-blur">
-            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] opacity-55"><Filter className="h-4 w-4" /> Filter</div>
+          <form action={basePath} className="self-end rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex items-center gap-2 text-xs font-black uppercase text-slate-500"><Filter className="h-4 w-4" /> Filter listings</div>
             <select name="category" defaultValue={category} className="mt-4 h-12 w-full rounded-2xl border border-[var(--editable-border)] bg-white px-4 text-sm font-bold outline-none">
               <option value="all">All categories</option>
               {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
             </select>
-            <button className="mt-3 h-12 w-full rounded-2xl bg-[var(--archive-text)] text-sm font-black text-[var(--archive-bg)]">Apply</button>
+            <button className="mt-3 h-12 w-full rounded-md bg-[#1f73be] text-sm font-black text-white">Apply</button>
             <p className="mt-3 text-xs font-bold opacity-55">Showing: {categoryLabel}</p>
           </form>
         </section>
 
-        <section className="mx-auto max-w-[var(--editable-container)] px-4 pb-16 sm:px-6 lg:px-8">
+        <section className="mx-auto grid max-w-[var(--editable-container)] gap-8 px-4 pb-16 sm:px-6 lg:grid-cols-[minmax(0,1fr)_336px] lg:px-8">
           {posts.length ? (
-            <div className={deck.archiveClass}>
+            <div className={task === 'listing' ? 'grid gap-6' : deck.archiveClass}>
               {posts.map((post, index) => <ArchivePostCard key={post.id || post.slug} post={post} task={task} basePath={basePath} index={index} />)}
             </div>
           ) : (
@@ -131,7 +131,9 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
             </div>
           )}
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          {task === 'listing' ? <ListingSidebar /> : null}
+
+          <div className={task === 'listing' ? 'lg:col-span-2 mt-2 flex flex-wrap items-center justify-center gap-3' : 'mt-10 flex flex-wrap items-center justify-center gap-3'}>
             {pagination.hasPrevPage ? <Link href={pageHref(basePath, category, page - 1)} className="rounded-full border border-[var(--editable-border)] bg-white px-5 py-3 text-sm font-black">Previous</Link> : null}
             <span className="rounded-full bg-[var(--archive-text)] px-5 py-3 text-sm font-black text-[var(--archive-bg)]">Page {page} of {pagination.totalPages || 1}</span>
             {pagination.hasNextPage ? <Link href={pageHref(basePath, category, page + 1)} className="rounded-full border border-[var(--editable-border)] bg-white px-5 py-3 text-sm font-black">Next</Link> : null}
@@ -176,24 +178,47 @@ function ListingArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const location = getField(post, ['location', 'address', 'city'])
   const phone = getField(post, ['phone', 'telephone', 'mobile'])
   const website = getField(post, ['website', 'url'])
+  const summary = getSummary(post) || 'View business details, service information, contact options, and related local listings.'
+  const mapsHref = location ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}` : ''
   return (
-    <Link href={href} className="group grid gap-5 rounded-[2rem] border border-[var(--editable-border)] bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[120px_1fr]">
-      <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-[1.5rem] bg-[var(--archive-bg)] ring-1 ring-[var(--editable-border)]">
+    <article className="grid gap-5 border-b border-slate-200 bg-white py-6 sm:grid-cols-[140px_minmax(0,1fr)]">
+      <Link href={href} className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-md border border-slate-200 bg-[#eef6fb]">
         {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <BriefcaseBusiness className="h-10 w-10 opacity-45" />}
-      </div>
+      </Link>
       <div className="min-w-0">
-        <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-[var(--archive-text)] px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--archive-bg)]">Directory</span>
-          {location ? <span className="inline-flex items-center gap-1 rounded-full border border-[var(--editable-border)] px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em]"><MapPin className="h-3 w-3" /> {location}</span> : null}
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <Link href={href} className="text-2xl font-black leading-tight text-[#102033] hover:text-[#1f73be]">{post.title}</Link>
+            {location ? <p className="mt-2 text-sm leading-6 text-slate-600">{location}</p> : null}
+          </div>
+          <span className="inline-flex items-center gap-1 text-sm font-black text-[#ff5750]">
+            {[0, 1, 2, 3, 4].map((star) => <Star key={star} className="h-4 w-4 fill-current" />)}
+          </span>
         </div>
-        <h2 className="mt-4 text-2xl font-black leading-tight tracking-[-0.05em]">{post.title}</h2>
-        <p className="mt-3 line-clamp-2 text-sm leading-6 opacity-65">{getSummary(post)}</p>
-        <div className="mt-4 grid gap-2 text-xs font-bold opacity-70 sm:grid-cols-2">
-          {phone ? <span>Phone: {phone}</span> : null}
-          {website ? <span>Website available</span> : null}
+        <p className="mt-4 line-clamp-3 max-w-2xl text-sm leading-6 text-slate-700">{summary}</p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 rounded-md bg-[#1f73be] px-4 py-2.5 text-sm font-black text-white"><Phone className="h-4 w-4" /> Contact</a> : null}
+          {website ? <a href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[#1f73be] px-4 py-2.5 text-sm font-black text-white"><Globe2 className="h-4 w-4" /> Website</a> : null}
+          {mapsHref ? <a href={mapsHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[#1f73be] px-4 py-2.5 text-sm font-black text-white"><MapPin className="h-4 w-4" /> Directions</a> : null}
+          <Link href={href} className="inline-flex items-center gap-2 rounded-md border border-[#1f73be] px-4 py-2.5 text-sm font-black text-[#1f73be]">Details <ArrowRight className="h-4 w-4" /></Link>
+          <span className="ml-auto inline-flex items-center gap-1 self-center text-xs font-black uppercase text-[#ff5750]"><CheckCircle2 className="h-4 w-4 fill-current" /> Verified</span>
         </div>
       </div>
-    </Link>
+    </article>
+  )
+}
+
+function ListingSidebar() {
+  return (
+    <aside className="space-y-7 lg:sticky lg:top-24 lg:self-start">
+     
+      <form action="/search" className="rounded-md bg-[#082347] p-6 text-white">
+        <h2 className="text-xl font-black leading-tight">Can’t find what you are looking for? Let us help you.</h2>
+        <input name="location" placeholder="Zip Code or City, State" className="mt-5 h-12 w-full rounded-md border border-white/20 bg-white px-4 text-sm font-semibold text-[#102033] outline-none placeholder:text-slate-500" />
+        <button className="mt-4 h-12 w-full rounded-md bg-[#ff5750] text-sm font-black text-white">Submit</button>
+      </form>
+      
+    </aside>
   )
 }
 

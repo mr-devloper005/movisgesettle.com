@@ -4,6 +4,7 @@ import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { buildPageMetadata } from '@/lib/seo'
 import { fetchHomeTaskFeed, fetchHomeTimeSections, type HomeTimeSection } from '@/lib/task-data'
 import { pagesContent } from '@/editable/content/pages.content'
+import { slot4BrandConfig } from '@/editable/theme/brand.config'
 import type { SitePost } from '@/lib/site-connector'
 import { EditableHomeCta, EditableHomeHero, EditableMagazineSplit, EditableStoryRail, EditableTimeCollections } from '@/editable/sections/HomeSections'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
@@ -43,7 +44,7 @@ export default async function HomePage() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          name: SITE_CONFIG.name,
+          name: slot4BrandConfig.siteName,
           url: baseUrl,
           potentialAction: {
             '@type': 'SearchAction',
