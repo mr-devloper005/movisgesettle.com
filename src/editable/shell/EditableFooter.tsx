@@ -32,16 +32,14 @@ export function EditableFooter() {
       <div className="mx-auto grid max-w-[var(--editable-container)] gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_1fr_1fr] lg:px-8">
         <div>
           <Link href="/" className="inline-flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-[#ff5750]">
-              <img src="/favicon.png?v=20260413" alt={slot4BrandConfig.siteName} className="h-11 w-12 object-contain" />
-            </span>
+            <img src="/favicon.png?v=20260413" alt={slot4BrandConfig.siteName} className="h-11 w-11 object-contain" />
             <span className="text-lg font-black tracking-normal">{slot4BrandConfig.siteName}</span>
           </Link>
           <p className="mt-4 max-w-md text-sm leading-7 opacity-70">{globalContent.footer?.description || slot4BrandConfig.tagline}</p>
         </div>
 
         <div>
-          <h3 className="text-xs font-black uppercase tracking-[0.22em] opacity-55">Explore</h3>
+          <h3 className="text-xs font-black uppercase tracking-normal opacity-55">Explore</h3>
           <div className="mt-4 grid gap-2">
             {taskLinks.map((task) => (
               <Link key={task.key} href={task.route} className="inline-flex items-center gap-2 text-sm font-bold opacity-75 hover:opacity-100">
@@ -52,7 +50,7 @@ export function EditableFooter() {
         </div>
 
         <div>
-          <h3 className="text-xs font-black uppercase tracking-[0.22em] opacity-55">Site</h3>
+          <h3 className="text-xs font-black uppercase tracking-normal opacity-55">Site</h3>
           <div className="mt-4 grid gap-2">
             {[
               ['About', '/about'],

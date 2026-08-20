@@ -61,15 +61,15 @@ export const editableDesignContract = {
     minRailCard: 'w-[140px] shrink-0 snap-start sm:w-[160px]',
   },
   type: {
-    eyebrow: 'text-xs font-extrabold uppercase tracking-[0.18em]',
+    eyebrow: 'text-xs font-extrabold uppercase tracking-normal',
     heroTitle: 'text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.25rem]',
     sectionTitle: 'text-3xl font-extrabold tracking-tight sm:text-4xl',
     body: 'text-base leading-relaxed',
   },
   surface: {
-    card: `rounded-2xl border ${editablePalette.border} ${editablePalette.surfaceBg} ${editablePalette.shadow}`,
-    soft: `rounded-2xl border ${editablePalette.border} ${editablePalette.surfaceBg}`,
-    dark: `rounded-2xl ${editablePalette.darkBg} ${editablePalette.darkText} ${editablePalette.shadowStrong}`,
+    card: `rounded-md border ${editablePalette.border} ${editablePalette.surfaceBg} ${editablePalette.shadow}`,
+    soft: `rounded-md border ${editablePalette.border} ${editablePalette.surfaceBg}`,
+    dark: `rounded-md ${editablePalette.darkBg} ${editablePalette.darkText} ${editablePalette.shadowStrong}`,
   },
   button: {
     primary: `inline-flex items-center justify-center rounded-md ${editablePalette.accentBg} px-7 py-3 text-sm font-bold text-white transition hover:opacity-90`,
