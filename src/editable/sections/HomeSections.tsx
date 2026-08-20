@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Building2, Car, GraduationCap, Globe2, Home, MapPin, Phone, Scale, Search, Star, Wrench } from 'lucide-react'
+import { ArrowRight, Car, GraduationCap, Home, Phone, Scale, Search, Star, Wrench } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import type { HomeTimeSection } from '@/lib/task-data'
 import type { TaskKey } from '@/lib/site-config'
@@ -97,7 +97,7 @@ export function EditableHomeHero({ primaryTask, primaryRoute }: HomeSectionProps
       <img src={heroImage} alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/45" />
       <div className="relative mx-auto flex min-h-[465px] max-w-[var(--editable-container)] flex-col items-center justify-center px-4 py-16 text-center sm:px-6 lg:px-8">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-white/80">{pagesContent.home.hero.badge}</p>
+        <p className="text-xs font-black uppercase tracking-normal text-white/80">{pagesContent.home.hero.badge}</p>
         <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight tracking-normal sm:text-5xl lg:text-6xl">{heroTitle}</h1>
         <p className="mt-4 max-w-2xl text-base font-semibold leading-7 text-white/84">{pagesContent.home.hero.description}</p>
         <form action="/search" className="mt-8 flex w-full max-w-[870px] flex-col overflow-hidden rounded-md bg-white text-[#102033] shadow-2xl sm:flex-row">
@@ -212,7 +212,7 @@ export function EditableHomeCta() {
     <section id="get-app" className="bg-[#082347] text-white">
       <div className="mx-auto grid max-w-[var(--editable-container)] items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">For merchants</p>
+          <p className="text-xs font-black uppercase tracking-normal text-white/70">For merchants</p>
           <h2 className="mt-4 max-w-md text-3xl font-black leading-tight">Fuel your business growth with {slot4BrandConfig.siteName}</h2>
           <p className="mt-5 max-w-md text-base leading-7 text-white/78">Join local merchants who use clear directory profiles to turn search intent into calls, visits, and customer conversations.</p>
           <Link href="/create" className="mt-8 inline-flex rounded-md bg-[#ff5750] px-10 py-3 text-sm font-black text-white">Learn more</Link>

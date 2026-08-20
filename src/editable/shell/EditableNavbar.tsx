@@ -24,9 +24,7 @@ export function EditableNavbar() {
     <header style={navVars} className="sticky top-0 z-50 border-b border-[var(--editable-border)] bg-[var(--editable-nav-bg)] text-[var(--editable-nav-text)] shadow-[0_2px_10px_rgba(15,23,42,0.05)]">
       <nav className="mx-auto flex min-h-[68px] w-full max-w-[var(--editable-container)] items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex shrink-0 items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#ff5750] shadow-sm transition-transform group-hover:-rotate-2">
-            <img src="/favicon.png?v=20260413" alt={brandName} className="h-11 w-12 object-contain" />
-          </span>
+          <img src="/favicon.png?v=20260413" alt={brandName} className="h-10 w-10 object-contain" />
           <span className="hidden min-w-0 sm:block">
             <span className="block max-w-[190px] truncate text-base font-black tracking-normal">{brandName}</span>
             <span className="block max-w-[190px] truncate text-[10px] font-bold uppercase opacity-55">{globalContent.nav?.tagline || slot4BrandConfig.tagline}</span>
